@@ -1,40 +1,41 @@
 "use client";
 
-import { ErrorMessage } from "@/components/shared/atom/ErrorMessage";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { AlertCircleIcon, Terminal } from "lucide-react";
-import Image from "next/image";
+import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { FiAlertTriangle } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
+import { HiOutlineMail } from "react-icons/hi";
 
 export default function Home() {
   const [showAlert, setShowAlert] = useState(false);
 
-  const list = [1, 2, 3, 4, 5, 6, 7, 8];
-
-  // for (const i of list) {
-  //   console.log(i.toString());
-  // }
-
-  // list.forEach((item) => console.log(item));
-  // const novaList = list.map((item) => console.log(item));
-
-  // console.log("novaList->", novaList);
-
   return (
     <main className="flex justify-between items-center w-full p-8 h-full">
-      <div className="flex items-center gap-2 mt-3">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>GR</AvatarFallback>
-        </Avatar>
-        <p className="text-[24px] font-semibold">Giovane Richard</p>
-      </div>
+      <div className="flex flex-col w-full items-center gap-4">
+        <div className="flex items-center justify-between gap-2 mt-3 w-full">
+          <div className="flex items-center gap-2">
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>GR</AvatarFallback>
+            </Avatar>
+            <p className="text-[24px] font-semibold">Giovane Richard</p>
+          </div>
+          <ThemeToggle />
+        </div>
 
-      <ThemeToggle />
+        <div className="space-y-4 w-[400px]">
+          <Input placeholder="Search..." icon={FiSearch} />
+          <Input placeholder="Search..." icon={HiOutlineMail} />
+          <Input placeholder="Loading state" loading />
+          <Input placeholder="With error" error="This field is required" />
+          <Input
+            placeholder="Disabled"
+            error="This field is required"
+            disabled
+          />
+        </div>
+      </div>
     </main>
   );
 }
