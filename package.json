@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "vercel-build": "pnpm install --no-frozen-lockfile && pnpm build"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.4",
