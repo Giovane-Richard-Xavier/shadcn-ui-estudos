@@ -1,10 +1,10 @@
+import { AdminLayout } from "@/components/shared/molecule/MainLayout";
+import { ThemeProvider } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
+import { Providers } from "@/utils/providers";
 import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import { cn } from "@/lib/utils";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Header } from "@/components/shared/molecule/Header";
-import { Providers } from "@/utils/providers";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -25,8 +25,8 @@ export default function RootLayout({
     <html lang="en suppressHydrationWarning">
       <body
         className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable
+          "min-h-screen bg-neutral-100 font-sans antialiased",
+          fontSans.variable,
         )}
       >
         <Providers>
@@ -36,8 +36,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Header />
-            {children}
+            <AdminLayout>{children}</AdminLayout>
           </ThemeProvider>
         </Providers>
       </body>
