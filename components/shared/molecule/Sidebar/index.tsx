@@ -1,60 +1,152 @@
-// import { forwardRef, HTMLAttributes } from "react";
-// import { tv, VariantProps } from "tailwind-variants";
+"use client";
 
-// export const sidebarVariants = tv({
-//   slots: {
-//     base: "flex flex-col items-center gap-[20px] w-[288px] h-full p-[20px] m-[5px] bg-neutral-100 border-dashed border-2 border-neutral-300 rounded-md",
-//     sidebarContent:
-//       "flex flex-col items-center justify-center w-full h-[117px] bg-blue-100 p-[10px] rounded-md",
-//     sidebarItem:
-//       "flex items-center justify-between bg-white border border-neutral-300 p-[10px] rounded-md w-full mb-[10px]",
-//   },
-//   variants: {
-//     variant: {
-//       default: "bg-background text-foreground",
-//       destructive:
-//         "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
-//     },
-//   },
-//   defaultVariants: {
-//     variant: "default",
-//   },
-// });
+import { forwardRef, HTMLAttributes } from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { tv, VariantProps } from "tailwind-variants";
 
-// export const { base } = sidebarVariants();
+export const sidebarVariants = tv({
+  slots: {
+    base: "relative flex flex-col h-screen bg-gray-800 text-neutral-700 transition-all duration-300 dark:bg-gray-800",
+    sidebarHeader: "text-lg font-bold",
+    sidebarButton:
+      "absolute top-16 -right-3.5 bg-white p-2 border border-neutral-300  rounded-full transition-all duration-300",
+    sidebarContent: "flex items-center justify-between p-4 text-white",
+    sidebarItem: "",
+  },
+  variants: {
+    variant: {
+      default: "bg-background text-foreground",
+      destructive:
+        "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
 
-// const Sidebar = forwardRef<
-//   HTMLDivElement,
-//   HTMLAttributes<HTMLDivElement> & VariantProps<typeof sidebarVariants>
-// >(({ className, variant, ...props }, ref) => (
-//   <div
-//     ref={ref}
-//     role="alert"
-//     className={base({ variant, className })}
-//     {...props}
-//   />
-// ));
-// Sidebar.displayName = "Sidebar";
+export const { base, sidebarButton, sidebarHeader, sidebarContent } =
+  sidebarVariants();
 
-import { IoMenu } from "react-icons/io5";
+import { IoArrowBack } from "react-icons/io5";
 
-interface SidebarProps {
+interface SidebarProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  asChild?: boolean;
   isOpen: boolean;
   toggleSidebar: () => void;
 }
 
-export const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
-  return (
-    <div
-      className={`flex flex-col h-screen bg-slate-900 transition-all duration-300 ${isOpen ? "w-[288px]" : "w-[80px]"}`}
+// export interface ButtonProps
+//   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+//   asChild?: boolean;
+// }
+
+const Sidebar = forwardRef<
+  HTMLDivElement,
+  HTMLAttributes<HTMLDivElement> &
+    VariantProps<typeof sidebarVariants> &
+    SidebarProps
+>(({ className, variant, isOpen, toggleSidebar, ...props }, ref) => (
+  <div
+    ref={ref}
+    role="div"
+    className={`${base({ variant, className })} ${isOpen ? "w-[288px]" : "w-[80px]"}`}
+    {...props}
+  >
+    <SidebarButton
+      className={sidebarButton({ className })}
+      isOpen={isOpen}
+      toggleSidebar={toggleSidebar}
     >
-      <div className="flex items-center justify-between p-4 text-white">
-        <h1 className="text-lg font-bold">{isOpen ? "Admin" : "A"}</h1>
-        <button onClick={toggleSidebar}>
-          <IoMenu size={24} />
-        </button>
-      </div>
+      <IoArrowBack className={`fill-blue-500 size-4 stroke-blue-500 `} />
+    </SidebarButton>
+
+    <SidebarHeader isOpen={isOpen} toggleSidebar={toggleSidebar}>
+      <h1 className="text-lg font-bold">{isOpen ? "Admin" : "A"}</h1>
+    </SidebarHeader>
+
+    <SidebarContent isOpen={isOpen} toggleSidebar={toggleSidebar}>
+      {/* <div className="relative flex items-center justify-between p-4 text-white"> */}
+      {/* <h1 className="text-lg font-bold">{isOpen ? "Admin" : "A"}</h1> */}
+      {/* <button
+        className={`absolute top-10 -right-3.5 bg-white p-2  rounded-full transition-all duration-300 ${isOpen ? "rotate-0 " : "rotate-180"}`}
+        onClick={toggleSidebar}
+      >
+        <IoArrowBack className={`fill-blue-500 size-4 stroke-blue-500 `} />
+      </button> */}
+      {/* <SidebarButton isOpen={isOpen} toggleSidebar={toggleSidebar}>
+        <IoArrowBack className={`fill-blue-500 size-4 stroke-blue-500 `} />
+      </SidebarButton> */}
+      {/* </div> */}
       <div className="flex-1">Conteúdo do Sidebar</div>
-    </div>
-  );
-};
+      <div className="flex-1">Conteúdo do Sidebar</div>
+    </SidebarContent>
+  </div>
+));
+Sidebar.displayName = "Sidebar";
+
+const SidebarContent = forwardRef<
+  HTMLDivElement,
+  HTMLAttributes<HTMLDivElement> &
+    VariantProps<typeof sidebarVariants> &
+    SidebarProps
+>(({ className, variant, isOpen, toggleSidebar, ...props }, ref) => (
+  <div
+    ref={ref}
+    role="alert"
+    className={`${sidebarContent({ variant, className })} ${isOpen ? "w-[288px]" : "w-[80px]"}`}
+    {...props}
+  />
+));
+SidebarContent.displayName = "SidebarContent";
+
+const SidebarHeader = forwardRef<
+  HTMLDivElement,
+  HTMLAttributes<HTMLDivElement> &
+    VariantProps<typeof sidebarVariants> &
+    SidebarProps
+>(({ className, variant, isOpen, toggleSidebar, ...props }, ref) => (
+  <div
+    ref={ref}
+    role="alert"
+    className={`${sidebarHeader({ variant, className })} ${isOpen ? "w-[288px]" : "w-[80px]"}`}
+    {...props}
+  />
+));
+SidebarHeader.displayName = "SidebarHeader";
+
+const SidebarButton = forwardRef<HTMLButtonElement, SidebarProps>(
+  ({ className, asChild = false, isOpen, toggleSidebar, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    return (
+      <Comp
+        className={`${sidebarContent({ className })} ${isOpen ? "rotate-0 " : "rotate-180"}`}
+        ref={ref}
+        {...props}
+        onClick={toggleSidebar}
+      />
+    );
+  },
+);
+SidebarContent.displayName = "SidebarContent";
+
+export { Sidebar, SidebarContent, SidebarButton };
+
+// export const Sidebar2 = ({ isOpen, toggleSidebar }: SidebarProps) => {
+//   return (
+//     <div
+//       className={`flex flex-col h-screen bg-gray-800 transition-all duration-300 ${isOpen ? "w-[288px]" : "w-[80px]"}`}
+//     >
+//       <div className="relative flex items-center justify-between p-4 text-white">
+//         <h1 className="text-lg font-bold">{isOpen ? "Admin" : "A"}</h1>
+//         <button
+//           className={`absolute top-10 -right-3.5 bg-white p-2  rounded-full transition-all duration-300 ${isOpen ? "rotate-0 " : "rotate-180"}`}
+//           onClick={toggleSidebar}
+//         >
+//           <IoArrowBack className={`fill-blue-500 size-4 stroke-blue-500 `} />
+//         </button>
+//       </div>
+//       <div className="flex-1">Conteúdo do Sidebar</div>
+//     </div>
+//   );
+// };

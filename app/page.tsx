@@ -9,7 +9,8 @@ export default function Home() {
 
   return (
     <div className="">
-      {isLoading ? <span>Carregando...</span> : <Widget />}
+      {/* {isLoading ? <span>Carregando...</span> : <Widget />} */}
+      <Widget />
       {/* <Several /> */}
     </div>
   );

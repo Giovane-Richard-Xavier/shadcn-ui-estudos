@@ -21,7 +21,7 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="flex flex-col flex-1">
         <Header isSidebarOpen={isSidebarOpen} />
-        <main className="flex-1 flex items-center justify-center bg-neutral-100 p-4">
+        <main className="flex-1 flex items-center justify-center bg-neutral-100 p-4 overflow-y-auto">
           {children}
         </main>
       </div>

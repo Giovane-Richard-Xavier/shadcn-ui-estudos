@@ -9,14 +9,14 @@ interface HeaderProps {
 export const Header = ({ isSidebarOpen }: HeaderProps) => {
   return (
     <div
-      className={`h-20 flex items-center justify-between gap-2 px-4 bg-slate-800 transition-all duration-300 ${isSidebarOpen ? "ml-0" : "ml-[calc(100vw - 80px)]"}`}
+      className={`h-20 flex items-center justify-between gap-2 px-4 bg-slate-700 transition-all duration-300 ${isSidebarOpen ? "ml-0" : "ml-[calc(100vw - 80px)]"}`}
     >
       <div className="flex items-center gap-2">
         <Avatar>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>GR</AvatarFallback>
         </Avatar>
-        <p className="text-[24px] font-semibold text-neutral-100">
+        <p className="text-[24px] font-semibold text-violet-400 tracking-wider uppercase">
           Giovane Richard
         </p>
       </div>
